@@ -119,19 +119,20 @@ def read_message():
 
     friends[sender].chats.append(new_chat)
 
-
-    print "Your secret message has been saved!"
-    print "your message is "+ secret_text
-    secret_text=secret_text.split()
-    avrg_words=len(secret_text)
-    print"the average words spoken by spy are "+str(avrg_words)
-    if avrg_words> 100:
-        print"this spy is speaking too much"
-        friends.pop(sender)
-        print"spy deleted from friend-list"
+    if secret_text != "":
+        print "Your secret message has been saved!"
+        print "your message is "+ secret_text
+        secret_text=secret_text.split()
+        avrg_words=len(secret_text)
+        print"the average words spoken by spy are "+str(avrg_words)
+        if avrg_words> 100:
+            print"this spy is speaking too much"
+            friends.pop(sender)
+            print"spy deleted from friend-list"
+        else:
+            print"friend is not deleted from the list"
     else:
-        print"friend is not deleted from the list"
-
+        print"You don't have any secret message!"
 
 def read_chat_history():
 
