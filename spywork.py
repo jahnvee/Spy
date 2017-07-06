@@ -1,12 +1,12 @@
 from spy_details import spy,Spy,friends,ChatMessage
 import colorama
-from colorama import Fore
+from colorama import Fore, Style
 from steganography.steganography import Steganography
 colorama.init()
 
-status_messages=["A Perfect Spy","Agent Infinity","Fly on the wall","The walls have Ears"]
-print "Hello!"
+status_messages=["A Perfect Spy","Agent Infinity","Fly on the wall","The walls have Ears"]  #default status list
 
+print "Hello!"
 question = "Do you want to continue as default user (Y/N)? "
 existing = raw_input(question)
 
@@ -21,14 +21,14 @@ def add_status():
         print "You don't have any status currently \n"
 
     default = raw_input("Do you want to select from the older status (y/n)? ")
-
+    #when spy want to add new status
     if default.upper() == "N":
         new_status_message = raw_input("What status message do you want to set? ")
 
         if len(new_status_message) > 0:
-            status_messages.append(new_status_message)
+            status_messages.append(new_status_message) #add new status to status message list
             updated_status_message = new_status_message
-
+    #when spy want to select from previous status
     elif default.upper() == 'Y':
 
         item_position = 1
@@ -45,17 +45,24 @@ def add_status():
     else:
         print "The option you chose is not valid! Press either y or n."
 
-    if updated_status_message:
+    if updated_status_message:#when status message is updated
         print "Your updated status message is: %s" % (updated_status_message)
     else:
         print "You did not update your status message"
 
     return updated_status_message
 
-
+#function to add spy friends
 def add_friend():
     new_friend=Spy('','',0,0.0)
+    #friend name,salutation age and rating is added to data
     new_friend.name = raw_input("Please add your friend's name: ")
+    if set('[~!@#$%^&*()+{}":;\']" "').intersection(new_friend.name):
+        print "Invalid entry. Please enter a Valid Name!"
+        new_friend.name=raw_input("enter your friend's name=")
+    else:
+        print "That's a valid friend name"
+
     new_friend.salutation = raw_input("Are they Mr. or Ms.?: ")
 
     new_friend.name = new_friend.salutation + " " + new_friend.name
@@ -71,27 +78,25 @@ def add_friend():
 
         print "Friend Added!"
     else:
-        print "Sorry! Invalid entry. We can't add spy with the details you provided"
+        print "Sorry!. We can't add spy with the details you provided"
 
     return len(friends)
 
-
+#function to select a friend from the list to perform pre selected task
 def select_a_friend():
-    item_number = 0
+    item_number = 0 #considered as index number
 
     for friend in friends:
-        print '%d. %s %s  with rating %.2f of age %d is online' % (item_number +1,friend.salutation, friend.name, friend.age,friend.rating)
-
-
+        print '%d. %s %s  with rating %.2f is online' % (item_number +1,friend.salutation, friend.name, friend.rating)
         item_number = item_number + 1
 
     friend_choice = raw_input("Choose from your friends")
 
-    friend_choice_position = int(friend_choice) - 1
+    friend_choice_position = int(friend_choice) - 1    #index number of spy friend
 
     return friend_choice_position
 
-
+#this function will be called when spy wants to send any message
 def send_message():
 
     friend_choice = select_a_friend()
@@ -124,7 +129,7 @@ def read_message():
         print "your message is "+ secret_text
         secret_text=secret_text.split()
         avrg_words=len(secret_text)
-        print"the average words spoken by spy are "+str(avrg_words)
+        print"words spoken by spy are "+str(avrg_words)
         if avrg_words> 100:
             print"this spy is speaking too much"
             friends.pop(sender)
@@ -144,9 +149,10 @@ def read_chat_history():
         if chat.sent_by_me==True:
 
             print '[%s] %s: %s' % (Fore.BLUE+chat.time.strftime("%d %B %Y"),Fore.RED+spy.name+' said:',Fore.BLACK+ chat.message)
+            print (Style.RESET_ALL)
         else:
             print '[%s] %s said: %s' % (Fore.BLUE+chat.time.strftime("%d %B %Y"),Fore.RED+friends[read_for].name,Fore.BLACK+ chat.message)
-
+            print (Style.RESET_ALL)
 
 def start_chat(spy):
     current_status_message = None
@@ -184,13 +190,25 @@ def start_chat(spy):
         print "Sorry your age is not appropriate to be a spy"
 
 
+
+
+
 if existing.upper() == "Y":
     start_chat(spy)
 else:
     spy = Spy('', '', 0, 0.0)
 
     spy.name = raw_input("Welcome to spy chat, tell us your spy name: ")
-
+    if set('[~!@#$%^&*()+{}":;\']" "').intersection(spy.name):
+        print "Invalid entry. Please enter a Valid Name!"
+        spy.name=raw_input("enter your name again=")
+        if set('[~!@#$%^&*()+{}":;\']" "').intersection(spy.name):
+            print"Invalid username! Please try later."
+            exit()
+        else:
+            print"Please provide more details :\n"
+    else:
+        print "That's a valid friend name"
     if len(spy.name) > 0:
         spy.salutation = raw_input("Should I call you Mr. or Ms.?: ")
 
