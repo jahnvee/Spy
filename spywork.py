@@ -5,7 +5,7 @@ from steganography.steganography import Steganography
 colorama.init()
 
 status_messages=["A Perfect Spy","Agent Infinity","Fly on the wall","The walls have Ears"]  #default status list
-
+special_text=["SOS","save me","Caution"]
 print "Hello!"
 question = "Do you want to continue as default user (Y/N)? "
 existing = raw_input(question)
@@ -107,6 +107,7 @@ def send_message():
     original_image = raw_input("What is the name of the image?")
     output_path = "output.jpg"
     text = raw_input("What do you want to say? ")
+
     Steganography.encode(original_image, output_path, text)
 
 
@@ -130,7 +131,11 @@ def read_message():
     if secret_text != "":
         print "Your secret message has been saved!"
         print "your message is "+ secret_text
-        secret_text=secret_text.split()
+        if secret_text in special_text:
+            text="Alarming Situation!! You need take action ASAP!"
+            print "%s"%(Fore.RED+text)
+            print (Style.RESET_ALL)
+        secret_text = secret_text.split(" ")
         avrg_words=len(secret_text)
         print"words spoken by spy are "+str(avrg_words)
         if avrg_words> 100:
