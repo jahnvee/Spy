@@ -60,6 +60,9 @@ def add_friend():
     if set('[~!@#$%^&*()+{}":;\']" "').intersection(new_friend.name):
         print "Invalid entry. Please enter a Valid Name!"
         new_friend.name=raw_input("enter your friend's name=")
+        if set('[~!@#$%^&*()+{}":;\']" "').intersection(new_friend.name):
+            print"Invalid name! Please try again."
+            exit()
     else:
         print "That's a valid friend name"
 
