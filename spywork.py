@@ -5,7 +5,8 @@ from steganography.steganography import Steganography
 colorama.init()
 
 status_messages=["A Perfect Spy","Agent Infinity","Fly on the wall","The walls have Ears"]  #default status list
-special_text=["SOS","save me","Caution"]
+special_text=["SOS","save me","Caution","sos"]
+text_to_send=[]
 print "Hello!"
 question = "Do you want to continue as default user (Y/N)? "
 existing = raw_input(question)
@@ -137,11 +138,22 @@ def read_message():
             print (Style.RESET_ALL)
         secret_text = secret_text.split(" ")
         avrg_words=len(secret_text)
-        print"words spoken by spy are "+str(avrg_words)
-        if avrg_words> 100:
+        count=0
+        print"words spoken by spy in 1 message are " + str(avrg_words)
+        text_to_send.append(avrg_words)
+        for words in range(0,len(text_to_send)):
+            counts=text_to_send[words]
+            count=count+counts
+        num=len(text_to_send)
+        avrg=count/num
+
+        print"average words spoken by spy are " + str(avrg)
+        if count > 100:
             print"this spy is speaking too much"
             friends.pop(sender)
-            print"spy deleted from friend-list"
+            delete_friend="spy deleted from friend-list"
+            print "%s"%(Fore.RED+delete_friend)
+            print (Style.RESET_ALL)
         else:
             print"friend is not deleted from the list"
     else:
